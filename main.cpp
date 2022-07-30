@@ -13,7 +13,7 @@ using std::endl;
 using std::string;
 
 std::fstream& goToLine(std::fstream& file, int num);
-int getPing(string line);
+int getInt(string line, int start);
 
 int main(){
     std::string line;
@@ -29,7 +29,7 @@ int main(){
         // }
 
         if(line.substr(0, 5) == "Reply"){
-            ping = getPing(line);
+            ping = getInt(line, 33);
         }
         cout << ping << endl;
     }
@@ -43,10 +43,10 @@ std::fstream& goToLine(std::fstream& file, int num){
     return file;
 }
 
-int getPing(string line){
-    int i = 33;
+int getInt(string line, int start){
+    int i = start;
     while(isdigit(line[i])){
         i++;
     }
-    return std::stoi(line.substr(33, i-33));
+    return std::stoi(line.substr(start, i-start));
 }
