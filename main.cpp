@@ -20,9 +20,11 @@ void ClearScreen();
 
 int main(){
     std::string line;
-    int ping, min = INT_MAX, max = INT_MIN;
+    int ping, min = INT_MAX, max = INT_MIN, sum = 0;
     system("clear");
-    while(1){
+
+    int count = 0;
+    while(count < 100){
         system("main.bat");
         std::fstream file("pings.txt");
         goToLine(file, 3);
@@ -40,10 +42,15 @@ int main(){
             if(ping < min){
                 min = ping;
             }
+            sum += ping;
+            count++;
         }
-        cout << "ping: " << ping << "\nmin: " << min << "\nmax: " << max << "\n";
+        cout << "ping: " << ping << "\nmin: " << min << "\nmax: " << max << "\n" << "\navg: " << sum/count << "\n";;
         ClearScreen();
     }
+    system("pause");
+    system("clear");
+    return 0;
 }
 
 std::fstream& goToLine(std::fstream& file, int num){
