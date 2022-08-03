@@ -24,15 +24,10 @@ int main(){
     std::string line;
     int ping, min = INT_MAX, max = INT_MIN, sum = 0;
     system("clear");
-    int avg = 20+10;
+
     vector<vector<string>> Display(21, vector<string>(30, "*"));
-    for(int i = 0; i < 21; i++){
-        Display[i][0] = std::to_string(avg);
-        avg--;
-    }
-    PrintDisplay(Display);
-    system("pause");
-    exit(0);
+    
+
     int count = 0;
     while(count < 50){
         system("main.bat");
@@ -57,8 +52,12 @@ int main(){
         }else{
             continue;
         }
-        cout << "ping: " << ping << "\nmin: " << min << "\nmax: " << max << "\n" << "\navg: " << sum/count << "\n";;
-        ClearScreen();
+        cout << "ping: " << ping << "\nmin: " << min << "\nmax: " << max << "\navg: " << sum/count << "\n\n";
+
+        updateAxis(Display, sum/count);
+        printDisplay(Display);
+        Sleep(10);
+        clearScreen();
     }
     system("pause");
     system("clear");

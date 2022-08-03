@@ -3,7 +3,7 @@
 
 #include "display.h"
 
-void PrintDisplay(vector<vector<std::string>>& Display){
+void printDisplay(vector<vector<std::string>>& Display){
     int length = Display[0].size();
     for(auto iter = Display.begin(); iter != Display.end(); iter++){
         for(int i = 0; i < length; i++){
@@ -13,7 +13,7 @@ void PrintDisplay(vector<vector<std::string>>& Display){
     }
 }
 
-void Printvect(vector<int>& vect){
+void printVect(vector<int>& vect){
     auto iter = vect.begin();
     while(iter != vect.end()){
         std::cout << *iter << ", ";
@@ -22,11 +22,19 @@ void Printvect(vector<int>& vect){
     std::cout << "\n";
 }
 
-void ClearScreen(){
+void clearScreen(){
     HANDLE hOut;
     COORD Position;
     hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     Position.X = 0;
     Position.Y = 0;
     SetConsoleCursorPosition(hOut, Position);
+}
+
+void updateAxis(vector<vector<std::string>>& Display, int avg){
+    for(int i = 0; i < 21; i++){
+        Display[i][0] = std::to_string(avg+10);
+        avg--;
+    }
+    return;
 }
