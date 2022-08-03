@@ -3,11 +3,11 @@
 
 #include "display.h"
 
-void PrintDisplay(vector<vector<char>>& Display){
+void PrintDisplay(vector<vector<std::string>>& Display){
     int length = Display[0].size();
     for(auto iter = Display.begin(); iter != Display.end(); iter++){
         for(int i = 0; i < length; i++){
-            std::cout << (*iter)[i] << ' ';
+            std::cout << (*iter)[i] << " ";
         }
         std::cout << "\n";
     }

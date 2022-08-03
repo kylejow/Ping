@@ -10,7 +10,7 @@
 
 using std::vector;
 
-void PrintDisplay(vector<vector<char>>& Display);
+void PrintDisplay(vector<vector<std::string>>& Display);
 void Printvect(vector<int>& vect);
 void ClearScreen();
 
