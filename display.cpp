@@ -3,9 +3,9 @@
 
 #include "display.h"
 
-void printDisplay(vector<vector<std::string>>& Display){
-    int length = Display[0].size();
-    for(auto iter = Display.begin(); iter != Display.end(); iter++){
+void printDisplay(vector<vector<std::string>>& display){
+    int length = display[0].size();
+    for(auto iter = display.begin(); iter != display.end(); iter++){
         for(int i = 0; i < length; i++){
             std::cout << (*iter)[i] << " ";
         }
@@ -31,9 +31,9 @@ void clearScreen(){
     SetConsoleCursorPosition(hOut, Position);
 }
 
-void updateAxis(vector<vector<std::string>>& Display, int avg){
+void updateAxis(vector<vector<std::string>>& display, int avg){
     for(int i = 0; i < 21; i++){
-        Display[i][0] = std::to_string(avg+10);
+        display[i][0] = std::to_string(avg+10);
         avg--;
     }
     return;

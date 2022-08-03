@@ -10,9 +10,9 @@
 
 using std::vector;
 
-void printDisplay(vector<vector<std::string>>& Display);
+void printDisplay(vector<vector<std::string>>& display);
 void printVect(vector<int>& vect);
 void clearScreen();
-void updateAxis(vector<vector<std::string>>& Display, int avg);
+void updateAxis(vector<vector<std::string>>& display, int avg);
 
 #endif

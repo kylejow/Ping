@@ -22,10 +22,10 @@ int getInt(string line, int start);
 
 int main(){
     std::string line;
-    int ping, min = INT_MAX, max = INT_MIN, sum = 0, avg = 0;
+    int ping, min = INT_MAX, max = INT_MIN, sum = 0, avg = 0, prevAvg = 0;
     system("clear");
 
-    vector<vector<string>> Display(21, vector<string>(30, "*"));
+    vector<vector<string>> display(21, vector<string>(30, "*"));
     
     int count = 0;
     while(count < 50){
@@ -48,18 +48,32 @@ int main(){
             }
             sum += ping;
             count++;
+            avg = sum/count;
         }else{
             continue;
         }
 
-        cout << "ping: " << ping << "\nmin: " << min << "\nmax: " << max << "\navg: " << sum/count << "\n\n";
+        cout << "ping: " << ping << "\nmin: " << min << "\nmax: " << max << "\navg: " << avg << "\n\n";
 
-        if(avg != sum/count){
-            avg = sum/count;
-            updateAxis(Display, avg);
+        if(avg != prevAvg){
+            prevAvg = avg;
+            updateAxis(display, avg);
         }
         
-        printDisplay(Display);
+        ////////////
+        for(int i = 0; i < 21; i++){
+            display[i][29] = " ";
+        }
+        if(ping > avg + 10){
+            display[0][29] = "*";
+        }else if(ping < avg - 10){
+            display[20][29] = "*";
+        }else{
+            display[ping-10][29] = "*";
+        }
+        ////////////
+
+        printDisplay(display);
         Sleep(10);
         clearScreen();
     }
