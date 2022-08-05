@@ -4,24 +4,17 @@ deque           https://en.cppreference.com/w/cpp/container/deque
 */
 
 #include <iostream>
-#include <limits>
-#include <stdio.h>
-#include <fstream>
 #include <windows.h>
-#include <vector>
 #include <deque>
 
 #include "display.h"
+#include "ping.h"
 
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
 using std::vector;
-
-std::fstream& goToLine(std::fstream& file, int num);
-int getInt(string line, int start);
-void set(int ping, vector<vector<string>>& display, int avg, int x, string replace);
 
 int main(){
     std::string line;
@@ -33,31 +26,21 @@ int main(){
 
     int count = 0;
     while(count < 50){
-        system("main.bat");
-        std::fstream file("pings.txt");
-        goToLine(file, 3);
-        getline(file, line);
-
-        // if(line.substr(0, 7) == "Request"){
-        //     exit(0);
-        // }
-
-        if(line.substr(0, 5) == "Reply"){
-            ping = getInt(line, 33);
-            if(ping > max){
-                max = ping;
-            }
-            if(ping < min){
-                min = ping;
-            }
-            sum += ping;
-            count++;
-            avg = sum/count;
-            pingHistory.push_back(ping);
-        }else{
+        ping = getPing();
+        if(ping == -1){
             continue;
         }
-
+        if(ping > max){
+            max = ping;
+        }
+        if(ping < min){
+            min = ping;
+        }
+        sum += ping;
+        count++;
+        avg = sum/count;
+        pingHistory.push_back(ping);
+        
         cout << "ping: " << ping << "\nmin: " << min << "\nmax: " << max << "\navg: " << avg << "\n\n";
 
         if(avg != prevAvg){
@@ -80,30 +63,4 @@ int main(){
     system("pause");
     system("clear");
     return 0;
-}
-
-std::fstream& goToLine(std::fstream& file, int num){
-    file.seekg(std::ios::beg);
-    for(int i=0; i < num - 1; ++i){
-        file.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-    }
-    return file;
-}
-
-int getInt(string line, int start){
-    int i = start;
-    while(isdigit(line[i])){
-        i++;
-    }
-    return std::stoi(line.substr(start, i-start));
-}
-
-void set(int ping, vector<vector<string>>& display, int avg, int x, string replace){
-    if(ping > avg + 10){
-        display[0][x] = replace;
-    }else if(ping < avg - 10){
-        display[20][x] = replace;
-    }else{
-        display[ping-10][x] = replace;
-    }
 }
