@@ -48,12 +48,12 @@ int main(){
             updateAxis(display, avg);
         }
 
-        for(int i = 1; i < 30; i++){
-            set(pingHistory[i], display, avg, i, " ");
+        for(int i = 1; i < 30; i++){    // remove previous points
+            setPoint(display, pingHistory[i], avg, i, " ");
         }
-        pingHistory.pop_front();
-        for(int i = 1; i < 30; i++){
-            set(pingHistory[i], display, avg, i, "*");
+        pingHistory.pop_front();    // shift queue
+        for(int i = 1; i < 30; i++){    // replace points
+            setPoint(display, pingHistory[i], avg, i, "*");
         }
 
         printDisplay(display);

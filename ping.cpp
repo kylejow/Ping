@@ -29,12 +29,12 @@ int getInt(string line, int start){
     return std::stoi(line.substr(start, i-start));
 }
 
-void set(int ping, vector<vector<string>>& display, int avg, int x, string replace){
+void setPoint(vector<vector<string>>& display, int ping, int avg, int location, string replace){
     if(ping > avg + 10){
-        display[0][x] = replace;
+        display[0][location] = replace;
     }else if(ping < avg - 10){
-        display[20][x] = replace;
+        display[20][location] = replace;
     }else{
-        display[ping-10][x] = replace;
+        display[ping-10][location] = replace;
     }
 }
