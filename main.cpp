@@ -1,5 +1,6 @@
 /*References
 seek to line    https://stackoverflow.com/questions/5207550/in-c-is-there-a-way-to-go-to-a-specific-line-in-a-text-file
+deque           https://en.cppreference.com/w/cpp/container/deque
 */
 
 #include <iostream>
@@ -8,6 +9,7 @@ seek to line    https://stackoverflow.com/questions/5207550/in-c-is-there-a-way-
 #include <fstream>
 #include <windows.h>
 #include <vector>
+#include <deque>
 
 #include "display.h"
 
@@ -19,14 +21,16 @@ using std::vector;
 
 std::fstream& goToLine(std::fstream& file, int num);
 int getInt(string line, int start);
+void set(int ping, vector<vector<string>>& display, int avg, int x, string replace);
 
 int main(){
     std::string line;
     int ping, min = INT_MAX, max = INT_MIN, sum = 0, avg = 0, prevAvg = 0;
     system("clear");
 
-    vector<vector<string>> display(21, vector<string>(30, "*"));
-    
+    vector<vector<string>> display(21, vector<string>(30, " "));
+    std::deque<int> pingHistory(30, 0);
+
     int count = 0;
     while(count < 50){
         system("main.bat");
@@ -49,6 +53,7 @@ int main(){
             sum += ping;
             count++;
             avg = sum/count;
+            pingHistory.push_back(ping);
         }else{
             continue;
         }
@@ -59,19 +64,14 @@ int main(){
             prevAvg = avg;
             updateAxis(display, avg);
         }
-        
-        ////////////
-        for(int i = 0; i < 21; i++){
-            display[i][29] = " ";
+
+        for(int i = 1; i < 30; i++){
+            set(pingHistory[i], display, avg, i, " ");
         }
-        if(ping > avg + 10){
-            display[0][29] = "*";
-        }else if(ping < avg - 10){
-            display[20][29] = "*";
-        }else{
-            display[ping-10][29] = "*";
+        pingHistory.pop_front();
+        for(int i = 1; i < 30; i++){
+            set(pingHistory[i], display, avg, i, "*");
         }
-        ////////////
 
         printDisplay(display);
         Sleep(10);
@@ -96,4 +96,14 @@ int getInt(string line, int start){
         i++;
     }
     return std::stoi(line.substr(start, i-start));
+}
+
+void set(int ping, vector<vector<string>>& display, int avg, int x, string replace){
+    if(ping > avg + 10){
+        display[0][x] = replace;
+    }else if(ping < avg - 10){
+        display[20][x] = replace;
+    }else{
+        display[ping-10][x] = replace;
+    }
 }
