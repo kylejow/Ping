@@ -17,6 +17,7 @@ using std::string;
 using std::vector;
 
 int main(){
+    setCursor(false);
     std::string line;
     int ping, min = INT_MAX, max = INT_MIN, sum = 0, avg = 0, prevAvg = 0;
     system("clear");
@@ -40,8 +41,6 @@ int main(){
         count++;
         avg = sum/count;
         pingHistory.push_back(ping);
-        
-        cout << "ping: " << ping << "\nmin: " << min << "\nmax: " << max << "\navg: " << avg << "\n\n";
 
         if(avg != prevAvg){
             prevAvg = avg;
@@ -57,10 +56,10 @@ int main(){
         }
 
         printDisplay(display);
-        Sleep(10);
+        cout << "\nping: " << ping << "\nmin: " << min << "\nmax: " << max << "\navg: " << avg;
         clearScreen();
     }
-    system("pause");
     system("clear");
+    setCursor(true);
     return 0;
 }

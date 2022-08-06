@@ -1,5 +1,6 @@
 //References
 //clear screen    https://cplusplus.com/forum/beginner/18191/
+//set cursor      https://www.codegrepper.com/code-examples/cpp/c%2B%2B+hide+cursor+in+console
 
 #include "display.h"
 
@@ -37,4 +38,11 @@ void updateAxis(vector<vector<std::string>>& display, int avg){
         avg--;
     }
     return;
+}
+
+void setCursor(bool visible){
+    CONSOLE_CURSOR_INFO info;
+    info.dwSize = 100;
+    info.bVisible = visible;
+    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
 }
