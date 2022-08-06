@@ -16,17 +16,21 @@ using std::endl;
 using std::string;
 using std::vector;
 
+unsigned long long int getPingCount();
+
 int main(){
     setCursor(false);
     std::string line;
-    int ping, min = INT_MAX, max = INT_MIN, sum = 0, avg = 0, prevAvg = 0;
+    int ping, min = INT_MAX, max = INT_MIN, avg = 0, prevAvg = 0;
+    unsigned long long int sum = 0;
     system("clear");
 
     vector<vector<string>> display(21, vector<string>(30, " "));
     std::deque<int> pingHistory(30, 0);
+    unsigned long long int pingCount = getPingCount();
 
-    int count = 0;
-    while(count < 50){
+    unsigned long long int count = 0;
+    while(count < pingCount){
         ping = getPing();
         if(ping == -1){
             continue;
@@ -62,4 +66,20 @@ int main(){
     system("clear");
     setCursor(true);
     return 0;
+}
+
+unsigned long long int getPingCount(){
+    unsigned long long int numPings;
+    system("cls");
+    cout << "Number of pings: ";
+    cin >> numPings;
+    while(cin.fail()){
+        system("cls");
+        cout << "Number of pings: ";
+        cin.clear();
+        cin.ignore(256,'\n');
+        cin >> numPings;
+    }
+    system("cls");
+    return numPings;
 }
