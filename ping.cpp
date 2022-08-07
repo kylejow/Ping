@@ -35,6 +35,6 @@ void setPoint(vector<vector<string>>& display, int ping, int avg, int location, 
     }else if(ping < avg - 10){
         display[20][location] = replace;
     }else{
-        display[ping-10][location] = replace;
+        display[avg-ping+10][location] = replace;
     }
 }

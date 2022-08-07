@@ -25,8 +25,8 @@ int main(){
     unsigned long long int sum = 0;
     system("clear");
 
-    vector<vector<string>> display(21, vector<string>(30, " "));
-    std::deque<int> pingHistory(30, 0);
+    vector<vector<string>> display(21, vector<string>(50, " "));
+    std::deque<int> pingHistory(50, 0);
     unsigned long long int pingCount = getPingCount();
 
     unsigned long long int count = 0;
@@ -46,16 +46,17 @@ int main(){
         avg = sum/count;
         pingHistory.push_back(ping);
 
+        for(int i = 1; i < 50; i++){    // remove previous points
+            setPoint(display, pingHistory[i], prevAvg, i, " ");
+        }
+
         if(avg != prevAvg){
             prevAvg = avg;
             updateAxis(display, avg);
         }
 
-        for(int i = 1; i < 30; i++){    // remove previous points
-            setPoint(display, pingHistory[i], avg, i, " ");
-        }
         pingHistory.pop_front();    // shift queue
-        for(int i = 1; i < 30; i++){    // replace points
+        for(int i = 1; i < 50; i++){    // replace points
             setPoint(display, pingHistory[i], avg, i, "*");
         }
 
