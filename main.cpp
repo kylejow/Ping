@@ -61,7 +61,10 @@ int main(){
         }
 
         printDisplay(display);
-        cout << "\nping: " << ping << "\nmin: " << min << "\nmax: " << max << "\navg: " << avg;
+        cout << "\nping: " << ping <<"     "
+             << "\nmin: "  << min  <<"     "
+             << "\nmax: "  << max  <<"     "
+             << "\navg: "  << avg  <<"     ";
         clearScreen();
     }
     system("clear");
