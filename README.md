@@ -1,3 +1,5 @@
 # Ping
 
-A small program to monitor ping and measure spikes.
+A small program to monitor and visualize ping.
+
+<img src="readme_images/ping.gif">
