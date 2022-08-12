@@ -2,4 +2,4 @@
 
 A small program to monitor and visualize ping.
 
-<img src="readme_images/ping.gif">
+<img src="readmeImages/ping.gif">
