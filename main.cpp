@@ -28,30 +28,33 @@ int main(){
     std::string line;
     int ping, min = INT_MAX, max = INT_MIN, avg = 0, prevAvg = 0;
     unsigned long long int sum = 0, count = 0;
-    
+
     vector<vector<string>> display(21, vector<string>(50, " "));
-    std::deque<int> pingHistory(50, 0);
+    std::deque<int> pingHistory(50, -1);
 
     std::atomic_bool stop = false;
     std::thread stopThread(stopProgram, std::ref(stop));
-    
+
     while(!stop){
         ping = getPing();
-        if(ping == -1){
-            continue;
-        }
         if(ping > max){
             max = ping;
         }
         if(ping < min){
             min = ping;
         }
-        sum += ping;
-        count++;
-        avg = sum/count;
+        if(ping != -1){
+            sum += ping;
+            count++;
+            avg = sum/count;
+        }
+
         pingHistory.push_back(ping);
 
         for(int i = 1; i < 50; i++){    // remove previous points
+            if(pingHistory[i] == -1){
+                continue;
+            }
             setPoint(display, pingHistory[i], prevAvg, i, " ");
         }
 
@@ -62,6 +65,9 @@ int main(){
 
         pingHistory.pop_front();    // shift queue
         for(int i = 1; i < 50; i++){    // replace points
+            if(pingHistory[i] == -1){
+                    continue;
+            }
             setPoint(display, pingHistory[i], avg, i, "*");
         }
 
