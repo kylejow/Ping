@@ -37,13 +37,14 @@ int main(){
 
     while(!stop){
         ping = getPing();
-        if(ping > max){
-            max = ping;
-        }
-        if(ping < min){
-            min = ping;
-        }
+        
         if(ping != -1){
+            if(ping > max){
+            max = ping;
+            }
+            if(ping < min){
+                min = ping;
+            }
             sum += ping;
             count++;
             avg = sum/count;
