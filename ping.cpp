@@ -10,7 +10,7 @@ int getPing(void){
     if(line.substr(0, 5) == "Reply"){
         return getInt(line, 33);
     }
-    return -1;
+    return 0;
 }
 
 std::fstream& goToLine(std::fstream& file, int num){
