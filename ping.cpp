@@ -29,6 +29,15 @@ int getInt(string line, int start){
     return std::stoi(line.substr(start, i-start));
 }
 
+void setAllPoints(std::deque<int>& pingHistory, vector<vector<string>>& display, int avg, string replace){
+    for(int i = 1; i < 50; i++){
+        if(pingHistory[i] == 0){
+            continue;
+        }
+        setPoint(display, pingHistory[i], avg, i, replace);
+    }
+}
+
 void setPoint(vector<vector<string>>& display, int ping, int avg, int location, string replace){
     if(ping > avg + 10){
         display[0][location] = replace;

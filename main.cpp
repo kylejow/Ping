@@ -8,7 +8,6 @@ thread constructor    https://en.cppreference.com/w/cpp/thread/thread/thread
 #include <iostream>
 #include <iomanip>
 #include <windows.h>
-#include <deque>
 #include <thread>
 #include <atomic>
 
@@ -20,6 +19,8 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::vector;
+using std::thread;
+using std::ref;
 
 void stopProgram(std::atomic_bool& stop);
 
@@ -36,10 +37,12 @@ int main(){
     std::deque<int> pingHistory(50, 0);
 
     std::atomic_bool stop = false;
-    std::thread stopThread(stopProgram, std::ref(stop));
+    thread stopThread(stopProgram, std::ref(stop));
     
     while(!stop){
+        thread removePoints(setAllPoints, std::ref(pingHistory), std::ref(display), prevAvg, " ");
         ping = getPing();
+        removePoints.join();
 
         if(ping == 0){
             continue;
@@ -54,15 +57,7 @@ int main(){
         sum += ping;
         count++;
         avg = sum/count;
-
         pingHistory.push_back(ping);
-
-        for(int i = 1; i < 50; i++){    // remove previous points
-            if(pingHistory[i] == 0){
-                continue;
-            }
-            setPoint(display, pingHistory[i], prevAvg, i, " ");
-        }
 
         if(avg != prevAvg){
             prevAvg = avg;
@@ -73,12 +68,7 @@ int main(){
         pingHistory.pop_front();    // shift queue
         jitter += abs(pingHistory[49] - pingHistory[48]);
 
-        for(int i = 1; i < 50; i++){    // replace points
-            if(pingHistory[i] == 0){
-                continue;
-            }
-            setPoint(display, pingHistory[i], avg, i, "*");
-        }
+        setAllPoints(pingHistory, display, prevAvg, "*");  // replace points
 
         printDisplay(display);
         cout << "\nping: "   << ping <<"     "
