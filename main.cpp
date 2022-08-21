@@ -20,6 +20,7 @@ batch ping            https://docs.microsoft.com/en-us/windows-server/administra
 
 using std::cout;
 using std::cin;
+using std::fstream;
 using std::endl;
 using std::string;
 using std::vector;
@@ -28,18 +29,25 @@ using std::ref;
 
 void stopProgram(std::atomic_bool& stop);
 bool isIP(string line);
+int getIPLength(std::string line);
+void pauseAndExit(void);
 
 int main(){
     string input;
     string target = "NULL";
+    string type;
+    int ipLength;
+
     while(1){
         system("cls");
-        cout << "1. 8.8.8.8\n"
+        cout << "1. Google (8.8.8.8)\n"
              << "2. Enter custom IP address\n"
+             << "3. Enter custom hostname\n"
              << "\n\nq to exit\n\n";
         cin >> input;
         if(input == "1"){
             target = "8.8.8.8";
+            type = "ip";
             break;
         }else if(input == "2"){
             while(!isIP(target)){
@@ -47,6 +55,13 @@ int main(){
                 cout << "Enter IP address: ";
                 cin >> target;
             }
+            type = "ip";
+            break;
+        }else if(input == "3"){
+            system("cls");
+            cout << "Enter Hostname: ";
+            cin >> target;
+            type = "hostname";
             break;
         }else if(input == "q"){
             system("cls");
@@ -55,20 +70,55 @@ int main(){
         else{
             continue;
         }
-        system ("cls");
     }
-    cin.ignore(256,'\n');
-    int ipLength = target.size();
 
+    //create bat
     std::ofstream file;
     file.open ("main.bat");
     file << "@echo off\nping /n 1 /l 1 " + target << " > pings.txt\n";
     file.close();
 
+    //verify input can be pinged and set length
+    string line;
+    if(type == "ip"){
+        system("main.bat");
+        fstream file("pings.txt");
+        getline(file, line);
+        if(!line.empty()){
+            system("clear");
+            cout << "Could not reach " << target << ".\n\n\n";
+            pauseAndExit();
+        }
+        goToLine(file, 3);
+        getline(file, line);
+        file.close();
+        if(line.substr(15, 6) == "failed"){
+            system("clear");
+            cout << "Could not reach " << target << ".\n\n\n";
+            pauseAndExit();
+        }else{
+            ipLength = target.size();
+        }
+    }
+    if(type == "hostname"){
+        system("main.bat");
+        fstream file("pings.txt");
+        getline(file, line);
+        if(!line.empty()){
+            system("clear");
+            cout << "Could not reach " << target << ".\n\n\n";
+            pauseAndExit();
+        }else{
+            goToLine(file, 3);
+            getline(file, line);
+            ipLength = getIPLength(line);
+        }
+        file.close();
+    }
+
     system("clear");
     setCursor(false);
     cout << std::fixed << std::setprecision(5);
-    std::string line;
     int ping, min = INT_MAX, max = INT_MIN, avg = 0, prevAvg = 0;
     long double jitter = 0;
     unsigned long long int sum = 0, count = 0;
@@ -77,6 +127,7 @@ int main(){
     std::deque<int> pingHistory(50, 0);
 
     std::atomic_bool stop = false;
+    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n'); //clear cin for stopthread
     thread stopThread(stopProgram, ref(stop));
     while(!stop){
         thread removePoints(setAllPoints, ref(pingHistory), ref(display), prevAvg, " ");
@@ -116,7 +167,7 @@ int main(){
              << "\nmax: "    << max  <<"     "
              << "\navg: "    << avg  <<"     "
              << "\njitter: " << jitter/49  <<"     "
-             << "\n\n\nPress Enter to exit.";
+             << "\n\n\nPress Enter to exit..";
         clearScreen();
     }
     stopThread.join();
@@ -128,7 +179,7 @@ int main(){
 }
 
 void stopProgram(std::atomic_bool& stop){
-    std::cin.get();
+    cin.get();
     stop = true;
     return;
 }
@@ -140,4 +191,21 @@ bool isIP(string line){
         }
     }
     return true;
+}
+
+int getIPLength(std::string line){
+    int start = 11;
+    int i = start;
+    while(isdigit(line[i]) || line[i] == '.'){
+        i++;
+    }
+    return i-start;
+}
+
+void pauseAndExit(void){
+    cout << "Press Enter to exit.";
+    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    cin.get();
+    system("clear");
+    exit(0);
 }
