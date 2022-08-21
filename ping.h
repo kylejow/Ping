@@ -10,7 +10,7 @@
 using std::vector;
 using std::string;
 
-int getPing();
+int getPing(int ipLength);
 std::fstream& goToLine(std::fstream& file, int num);
 int getInt(string line, int start);
 void setAllPoints(std::deque<int>& pingHistory, vector<vector<std::string>>& display, int avg, string replace);

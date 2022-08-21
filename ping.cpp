@@ -1,6 +1,6 @@
 #include "ping.h"
 
-int getPing(void){
+int getPing(int ipLength){
     std::string line;
     system("main.bat");
     std::fstream file("pings.txt");
@@ -8,7 +8,7 @@ int getPing(void){
     getline(file, line);
 
     if(line.substr(0, 5) == "Reply"){
-        return getInt(line, 33);
+        return getInt(line, 26+ipLength);
     }
     return 0;
 }
