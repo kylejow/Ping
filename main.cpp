@@ -7,6 +7,7 @@ thread constructor    https://en.cppreference.com/w/cpp/thread/thread/thread
 
 #include <iostream>
 #include <iomanip>
+#include <vector>
 #include <windows.h>
 #include <thread>
 #include <atomic>
@@ -37,10 +38,9 @@ int main(){
     std::deque<int> pingHistory(50, 0);
 
     std::atomic_bool stop = false;
-    thread stopThread(stopProgram, std::ref(stop));
-    
+    thread stopThread(stopProgram, ref(stop));
     while(!stop){
-        thread removePoints(setAllPoints, std::ref(pingHistory), std::ref(display), prevAvg, " ");
+        thread removePoints(setAllPoints, ref(pingHistory), ref(display), prevAvg, " ");
         ping = getPing();
         removePoints.join();
 
@@ -71,6 +71,7 @@ int main(){
         setAllPoints(pingHistory, display, prevAvg, "*");  // replace points
 
         printDisplay(display);
+        
         cout << "\nping: "   << ping <<"     "
              << "\nmin: "    << min  <<"     "
              << "\nmax: "    << max  <<"     "
