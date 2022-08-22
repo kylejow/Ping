@@ -20,6 +20,7 @@ batch ping            https://docs.microsoft.com/en-us/windows-server/administra
 
 using std::cout;
 using std::cin;
+using std::ofstream;
 using std::fstream;
 using std::endl;
 using std::string;
@@ -73,25 +74,26 @@ int main(){
     }
 
     //create bat
-    std::ofstream file;
-    file.open ("main.bat");
-    file << "@echo off\nping /n 1 /l 1 " + target << " > pings.txt\n";
-    file.close();
+    ofstream createBat;
+    createBat.open ("main.bat");
+    createBat << "@echo off\nping /n 1 /l 1 " + target << " > pings.txt\n";
+    createBat.close();
 
     //verify input can be pinged and set length
     string line;
+    system("main.bat");
+    fstream file("pings.txt");
+    getline(file, line);
+    if(!line.empty()){
+        system("clear");
+        cout << "Could not reach " << target << ".\n\n\n";
+        
+        pauseAndExit();
+    }
     if(type == "ip"){
-        system("main.bat");
-        fstream file("pings.txt");
-        getline(file, line);
-        if(!line.empty()){
-            system("clear");
-            cout << "Could not reach " << target << ".\n\n\n";
-            pauseAndExit();
-        }
         goToLine(file, 3);
         getline(file, line);
-        file.close();
+        //check secondary fail occuring from invalid ip
         if(line.substr(15, 6) == "failed"){
             system("clear");
             cout << "Could not reach " << target << ".\n\n\n";
@@ -101,20 +103,11 @@ int main(){
         }
     }
     if(type == "hostname"){
-        system("main.bat");
-        fstream file("pings.txt");
+        goToLine(file, 3);
         getline(file, line);
-        if(!line.empty()){
-            system("clear");
-            cout << "Could not reach " << target << ".\n\n\n";
-            pauseAndExit();
-        }else{
-            goToLine(file, 3);
-            getline(file, line);
-            ipLength = getIPLength(line);
-        }
-        file.close();
+        ipLength = getIPLength(line);
     }
+    file.close();
 
     system("clear");
     setCursor(false);
@@ -203,6 +196,8 @@ int getIPLength(std::string line){
 }
 
 void pauseAndExit(void){
+    system("rm pings.txt");
+    system("rm main.bat");
     cout << "Press Enter to exit.";
     cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
     cin.get();
