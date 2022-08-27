@@ -29,8 +29,6 @@ using std::thread;
 using std::ref;
 
 void stopProgram(std::atomic_bool& stop);
-bool isIP(string line);
-int getIPLength(std::string line);
 void pauseAndExit(void);
 
 int main(){
@@ -67,8 +65,7 @@ int main(){
         }else if(input == "q"){
             system("cls");
             exit(0);
-        }
-        else{
+        }else{
             continue;
         }
     }
@@ -87,7 +84,7 @@ int main(){
     if(!line.empty()){
         system("clear");
         cout << "Could not reach " << target << ".\n\n\n";
-        
+        file.close();
         pauseAndExit();
     }
     if(type == "ip"){
@@ -97,6 +94,7 @@ int main(){
         if(line.substr(15, 6) == "failed"){
             system("clear");
             cout << "Could not reach " << target << ".\n\n\n";
+            file.close();
             pauseAndExit();
         }else{
             ipLength = target.size();
@@ -163,6 +161,7 @@ int main(){
              << "\n\n\nPress Enter to exit..";
         clearScreen();
     }
+
     stopThread.join();
     system("clear");
     system("rm pings.txt");
@@ -175,24 +174,6 @@ void stopProgram(std::atomic_bool& stop){
     cin.get();
     stop = true;
     return;
-}
-
-bool isIP(string line){
-    for(long long unsigned int i = 0; i < line.size(); i++){
-        if(!isdigit(line[i]) && line[i] != '.'){
-            return false;
-        }
-    }
-    return true;
-}
-
-int getIPLength(std::string line){
-    int start = 11;
-    int i = start;
-    while(isdigit(line[i]) || line[i] == '.'){
-        i++;
-    }
-    return i-start;
 }
 
 void pauseAndExit(void){

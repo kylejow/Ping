@@ -48,3 +48,21 @@ void setPoint(vector<vector<string>>& display, int ping, int avg, int location, 
         display[avg-ping+10][location] = replace;
     }
 }
+
+bool isIP(string line){
+    for(long long unsigned int i = 0; i < line.size(); i++){
+        if(!isdigit(line[i]) && line[i] != '.'){
+            return false;
+        }
+    }
+    return true;
+}
+
+int getIPLength(std::string line){
+    int start = 11;
+    int i = start;
+    while(isdigit(line[i]) || line[i] == '.'){
+        i++;
+    }
+    return i-start;
+}
