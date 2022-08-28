@@ -111,7 +111,7 @@ int main(){
     setCursor(false);
     cout << std::fixed << std::setprecision(5);
     int ping, min = INT_MAX, max = INT_MIN, avg = 0, prevAvg = 0;
-    long double jitter = 0;
+    long double jitter = 0, loss = 0;
     unsigned long long int sum = 0, count = 0;
 
     vector<vector<string>> display(21, vector<string>(50, " "));
@@ -126,6 +126,7 @@ int main(){
         removePoints.join();
 
         if(ping == 0){
+            loss++;
             continue;
         }
 
@@ -151,13 +152,15 @@ int main(){
 
         setAllPoints(pingHistory, display, prevAvg, "*");  // replace points
 
+        cout << "Pinging " + target << "\n\n";
         printDisplay(display);
         
-        cout << "\nping: "   << ping <<"     "
-             << "\nmin: "    << min  <<"     "
-             << "\nmax: "    << max  <<"     "
-             << "\navg: "    << avg  <<"     "
-             << "\njitter: " << jitter/49  <<"     "
+        cout << "\nPing: "   << ping <<"     "
+             << "\nMin: "    << min  <<"     "
+             << "\nMax: "    << max  <<"     "
+             << "\nAvg: "    << avg  <<"     "
+             << "\nJitter: " << jitter/49  <<"     "
+             << "\nPacket Loss: " << loss/count*100  <<"%     "
              << "\n\n\nPress Enter to exit..";
         clearScreen();
     }
