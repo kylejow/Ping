@@ -66,3 +66,19 @@ int getIPLength(std::string line){
     }
     return i-start;
 }
+
+int getPolling(void){
+    system("cls");
+    int polling;
+    cout << "Enter polling rate in milliseconds: ";
+    cin >> polling;
+    while(cin.fail()){
+        system("cls");
+        cout << "Enter polling rate in milliseconds: ";
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+        cin >> polling;
+    }
+    system("cls");
+    return polling;
+}

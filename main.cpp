@@ -35,13 +35,14 @@ int main(){
     string input;
     string target = "NULL";
     string type;
-    int ipLength;
+    int polling = 0;
 
     while(1){
         system("cls");
         cout << "1. Google (8.8.8.8)\n"
              << "2. Enter custom IP address\n"
              << "3. Enter custom hostname\n"
+             << "4. Change polling rate (Default: 0)\n"
              << "\n\nq to exit\n\n";
         cin >> input;
         if(input == "1"){
@@ -62,6 +63,8 @@ int main(){
             cin >> target;
             type = "hostname";
             break;
+        }else if(input == "4"){
+            polling = getPolling();
         }else if(input == "q"){
             system("cls");
             exit(0);
@@ -78,6 +81,7 @@ int main(){
 
     //verify input can be pinged and set length
     string line;
+    int ipLength;
     system("main.bat");
     fstream file("pings.txt");
     getline(file, line);
@@ -118,7 +122,6 @@ int main(){
     std::deque<int> pingHistory(50, 0);
 
     std::atomic_bool stop = false;
-    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n'); //clear cin for stopthread
     thread stopThread(stopProgram, ref(stop));
     while(!stop){
         thread removePoints(setAllPoints, ref(pingHistory), ref(display), prevAvg, " ");
@@ -152,7 +155,7 @@ int main(){
 
         setAllPoints(pingHistory, display, prevAvg, "*");  // replace points
 
-        cout << "Pinging " + target << "\n\n";
+        cout << "Pinging " << target << "\n\n";
         printDisplay(display);
         
         cout << "\nPing: "   << ping <<"     "
@@ -161,7 +164,9 @@ int main(){
              << "\nAvg: "    << avg  <<"     "
              << "\nJitter: " << jitter/49  <<"     "
              << "\nPacket Loss: " << loss/count*100  <<"%     "
-             << "\n\n\nPress Enter to exit..";
+             << "\n\n\nPress Enter to exit.";
+
+        Sleep(polling);
         clearScreen();
     }
 
@@ -174,6 +179,7 @@ int main(){
 }
 
 void stopProgram(std::atomic_bool& stop){
+    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
     cin.get();
     stop = true;
     return;
