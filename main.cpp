@@ -29,11 +29,11 @@ using std::thread;
 using std::ref;
 
 void stopProgram(std::atomic_bool& stop);
-void pauseAndExit(void);
+void reachFailure(string target);
 
 int main(){
-
     int polling = 0;
+
     while(1){
         string input;
         string target = "NULL";
@@ -88,20 +88,18 @@ int main(){
         fstream file("pings.txt");
         getline(file, line);
         if(!line.empty()){
-            system("clear");
-            cout << "Could not reach " << target << ".\n\n\n";
             file.close();
-            pauseAndExit();
+            reachFailure(target);
+            continue;
         }
         if(type == "ip"){
             goToLine(file, 3);
             getline(file, line);
             //check secondary fail occuring from invalid ip
             if(line.substr(15, 6) == "failed"){
-                system("clear");
-                cout << "Could not reach " << target << ".\n\n\n";
                 file.close();
-                pauseAndExit();
+                reachFailure(target);
+                continue;
             }else{
                 ipLength = target.size();
             }
@@ -188,12 +186,10 @@ void stopProgram(std::atomic_bool& stop){
     return;
 }
 
-void pauseAndExit(void){
+void reachFailure(string target){
     system("rm pings.txt");
     system("rm main.bat");
-    cout << "Press Enter to exit.";
-    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-    cin.get();
     system("clear");
-    exit(0);
+    cout << "Could not reach " << target << ".\n\n\n";
+    system("pause");
 }
