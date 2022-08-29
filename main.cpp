@@ -33,11 +33,11 @@ void pauseAndExit(void);
 
 int main(){
 
+    int polling = 0;
     while(1){
         string input;
         string target = "NULL";
         string type;
-        int polling = 0;
 
         while(1){
             system("cls");
