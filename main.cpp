@@ -42,10 +42,10 @@ int main(){
         while(1){
             system("cls");
             cout << "1. Google (8.8.8.8)\n"
-                << "2. Enter custom IP address\n"
-                << "3. Enter custom hostname\n"
-                << "4. Change polling rate (Default: 0)\n"
-                << "\n\nq to exit\n\n";
+                 << "2. Enter custom IP address\n"
+                 << "3. Enter custom hostname\n"
+                 << "4. Change polling rate (Current: " << polling << "ms)\n"
+                 << "\n\nq to exit\n\n";
             cin >> input;
             if(input == "1"){
                 target = "8.8.8.8";
