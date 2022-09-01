@@ -42,9 +42,8 @@ int main(){
         while(1){
             system("cls");
             cout << "1. Google (8.8.8.8)\n"
-                 << "2. Enter custom IP address\n"
-                 << "3. Enter custom hostname\n"
-                 << "4. Change polling rate (Current: " << polling << "ms)\n"
+                 << "2. Enter custom IP address or Hostname\n"
+                 << "3. Change polling rate (Current: " << polling << "ms)\n"
                  << "\n\nq to exit\n\n";
             cin >> input;
             if(input == "1"){
@@ -52,20 +51,16 @@ int main(){
                 type = "ip";
                 break;
             }else if(input == "2"){
-                while(!isIP(target)){
-                    system("cls");
-                    cout << "Enter IP address: ";
-                    cin >> target;
+                system("cls");
+                cout << "Enter custom IP address or Hostname: ";
+                cin >> target;
+                if(isIP(target)){
+                    type = "ip";
+                }else{
+                    type = "hostname";
                 }
-                type = "ip";
                 break;
             }else if(input == "3"){
-                system("cls");
-                cout << "Enter Hostname: ";
-                cin >> target;
-                type = "hostname";
-                break;
-            }else if(input == "4"){
                 polling = getPolling();
             }else if(input == "q"){
                 system("cls");
@@ -159,12 +154,12 @@ int main(){
             printDisplay(display);
             
             cout << "\nPing: "   << ping <<"     "
-                << "\nMin: "    << min  <<"     "
-                << "\nMax: "    << max  <<"     "
-                << "\nAvg: "    << avg  <<"     "
-                << "\nJitter: " << jitter/49  <<"     "
-                << "\nPacket Loss: " << loss/count*100  <<"%     "
-                << "\n\n\nPress Enter to exit.";
+                 << "\nMin: "    << min  <<"     "
+                 << "\nMax: "    << max  <<"     "
+                 << "\nAvg: "    << avg  <<"     "
+                 << "\nJitter: " << jitter/49  <<"     "
+                 << "\nPacket Loss: " << loss/count*100  <<"%     "
+                 << "\n\n\nPress Enter to exit.";
 
             Sleep(polling);
             clearScreen();
