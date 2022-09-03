@@ -14,6 +14,22 @@ int getPing(int ipLength){
     return 0;
 }
 
+int systemPing(int ipLength, string& target){
+    std::string line;
+    const string call = "ping /n 1 /l 1 " + target + " > pings.txt";
+    const char *c = call.c_str();
+    system(c);
+    std::fstream file("pings.txt");
+    goToLine(file, 3);
+    getline(file, line);
+    file.close();
+    
+    if(line.substr(0, 5) == "Reply"){
+        return getInt(line, 26+ipLength);
+    }
+    return 0;
+}
+
 std::fstream& goToLine(std::fstream& file, int num){
     file.seekg(std::ios::beg);
     for(int i=0; i < num - 1; ++i){

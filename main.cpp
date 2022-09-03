@@ -79,7 +79,10 @@ int main(){
         //verify input can be pinged and set length
         string line;
         int ipLength;
-        system("main.bat");
+        //system("main.bat");
+        const string call = "ping /n 1 /l 1 " + target + " > pings.txt";
+        const char *c = call.c_str();
+        system(c);
         fstream file("pings.txt");
         getline(file, line);
         if(!line.empty()){
@@ -120,7 +123,8 @@ int main(){
         thread stopThread(stopProgram, ref(stop));
         while(!stop){
             thread removePoints(setAllPoints, ref(pingHistory), ref(display), prevAvg, " ");
-            ping = getPing(ipLength);
+            ping = systemPing(ipLength, target);
+            //ping = getPing(ipLength);
             removePoints.join();
 
             if(ping == 0){
@@ -168,7 +172,6 @@ int main(){
         stopThread.join();
         system("clear");
         system("rm pings.txt");
-        system("rm main.bat");
         setCursor(true);
     }
     return 0;
@@ -183,7 +186,6 @@ void stopProgram(std::atomic_bool& stop){
 
 void reachFailure(string target){
     system("rm pings.txt");
-    system("rm main.bat");
     system("clear");
     cout << "Could not reach " << target << ".\n\n\n";
     system("pause");
