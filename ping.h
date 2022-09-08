@@ -7,6 +7,7 @@
 #include <fstream>
 #include <deque>
 #include <iostream>
+#include <sstream>
 
 using std::vector;
 using std::string;
@@ -22,5 +23,8 @@ void setPoint(vector<vector<string>>& display, int ping, int avg, int location, 
 bool isIP(string line);
 int getIPLength(std::string line);
 int getPolling(void);
+vector<string> saved(void);
+string chooseFromSaved(vector<string>& savedTargets);
+void printSavedTargets(vector<string>& savedTargets);
 
 #endif

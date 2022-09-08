@@ -98,3 +98,41 @@ int getPolling(void){
     system("cls");
     return polling;
 }
+
+vector<string> saved(void){
+    vector<string> savedTargets;
+    std::string line, target;
+    std::fstream file("saved.csv");
+    getline(file, line);
+    std::stringstream s(line);
+    while(getline(s, target, ',')){ 
+        savedTargets.push_back(target);
+    }
+    return savedTargets;
+}
+
+string chooseFromSaved(vector<string>& savedTargets){
+    int chosen = 0;
+    int numSaved = savedTargets.size();
+
+    system("cls");
+    printSavedTargets(savedTargets);
+    cin >> chosen;
+    while(cin.fail() || chosen < 1 || chosen > numSaved){
+        system("cls");
+        printSavedTargets(savedTargets);
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+        cin >> chosen;
+    }
+    return savedTargets[chosen-1];
+}
+
+void printSavedTargets(vector<string>& savedTargets){
+    int i = 1;
+    for(auto iter = savedTargets.begin(); iter != savedTargets.end(); iter++){
+        cout << i << ". " << *iter << "\n";
+        i++;
+    }
+    cout << "\n";
+}

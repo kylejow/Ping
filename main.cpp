@@ -30,9 +30,13 @@ using std::ref;
 
 void stopProgram(std::atomic_bool& stop);
 void reachFailure(string target);
+string chooseFromSaved(vector<string>& savedTargets);
+void printSavedTargets(vector<string>& savedTargets);
+
 
 int main(){
     int polling = 0;
+    vector<string> savedTargets = saved();
 
     while(1){
         string input;
@@ -43,7 +47,8 @@ int main(){
             system("cls");
             cout << "1. Google (8.8.8.8)\n"
                  << "2. Enter custom IP address or Hostname\n"
-                 << "3. Change polling rate (Current: " << polling << "ms)\n"
+                 << "3. Saved targets\n"
+                 << "4. Change polling rate (Current: " << polling << "ms)\n"
                  << "\n\nq to exit\n\n";
             cin >> input;
             if(input == "1"){
@@ -54,13 +59,11 @@ int main(){
                 system("cls");
                 cout << "Enter custom IP address or Hostname: ";
                 cin >> target;
-                if(isIP(target)){
-                    type = "ip";
-                }else{
-                    type = "hostname";
-                }
                 break;
             }else if(input == "3"){
+                target = chooseFromSaved(savedTargets);
+                break;
+            }else if(input == "4"){
                 polling = getPolling();
             }else if(input == "q"){
                 system("cls");
@@ -68,6 +71,12 @@ int main(){
             }else{
                 continue;
             }
+        }
+
+        if(isIP(target)){
+            type = "ip";
+        }else{
+            type = "hostname";
         }
 
         //create bat
