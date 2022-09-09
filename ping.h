@@ -24,7 +24,8 @@ bool isIP(string line);
 int getIPLength(std::string line);
 int getPolling(void);
 vector<string> saved(void);
-string chooseFromSaved(vector<string>& savedTargets);
+int chooseFromSaved(vector<string>& savedTargets);
 void printSavedTargets(vector<string>& savedTargets);
+void toCSV(vector<string>& savedTargets, string filename);
 
 #endif

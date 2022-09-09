@@ -111,7 +111,7 @@ vector<string> saved(void){
     return savedTargets;
 }
 
-string chooseFromSaved(vector<string>& savedTargets){
+int chooseFromSaved(vector<string>& savedTargets){
     int chosen = 0;
     int numSaved = savedTargets.size();
 
@@ -125,7 +125,7 @@ string chooseFromSaved(vector<string>& savedTargets){
         cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
         cin >> chosen;
     }
-    return savedTargets[chosen-1];
+    return chosen-1;
 }
 
 void printSavedTargets(vector<string>& savedTargets){
@@ -135,4 +135,14 @@ void printSavedTargets(vector<string>& savedTargets){
         i++;
     }
     cout << "\n";
+}
+
+void toCSV(vector<string>& savedTargets, string filename){
+    std::string line;
+    std::ofstream file(filename, std::ofstream::trunc);
+    for(long long unsigned int i = 0; i < savedTargets.size(); i++){
+        file << savedTargets[i] << ",";
+    }
+    file.close();
+    return;
 }

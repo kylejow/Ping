@@ -5,6 +5,7 @@ multithread interrupt https://stackoverflow.com/questions/41470942/stop-infinite
 thread constructor    https://en.cppreference.com/w/cpp/thread/thread/thread
 batch ping            https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/ping
                       filename cannot be the same as command to be redirected
+overwrite file        https://cplusplus.com/forum/beginner/195138/
 */
 
 #include <iostream>
@@ -30,9 +31,6 @@ using std::ref;
 
 void stopProgram(std::atomic_bool& stop);
 void reachFailure(string target);
-string chooseFromSaved(vector<string>& savedTargets);
-void printSavedTargets(vector<string>& savedTargets);
-
 
 int main(){
     int polling = 0;
@@ -45,10 +43,12 @@ int main(){
 
         while(1){
             system("cls");
-            cout << "1. Google (8.8.8.8)\n"
-                 << "2. Enter custom IP address or Hostname\n"
-                 << "3. Saved targets\n"
-                 << "4. Change polling rate (Current: " << polling << "ms)\n"
+            cout << "1. Ping Google (8.8.8.8)\n"
+                 << "2. Ping custom IP address or Hostname\n"
+                 << "3. Ping from saved targets\n"
+                 << "4. Add saved target\n"
+                 << "5. Delete saved target\n"
+                 << "6. Change polling rate (Current: " << polling << "ms)\n"
                  << "\n\nq to exit\n\n";
             cin >> input;
             if(input == "1"){
@@ -57,13 +57,35 @@ int main(){
                 break;
             }else if(input == "2"){
                 system("cls");
-                cout << "Enter custom IP address or Hostname: ";
+                cout << "Ping custom IP address or Hostname: ";
                 cin >> target;
                 break;
             }else if(input == "3"){
-                target = chooseFromSaved(savedTargets);
+                if(savedTargets.size() == 0){
+                    system("cls");
+                    cout << "No saved targets\n\n\n";
+                    system("pause");
+                    continue;
+                }
+                target = savedTargets[chooseFromSaved(savedTargets)];
                 break;
             }else if(input == "4"){
+                system("cls");
+                string addToSaved;
+                cout << "Save custom IP address or Hostname: ";
+                cin >> addToSaved;
+                savedTargets.push_back(addToSaved);
+                toCSV(savedTargets, "saved.csv");
+            }else if(input == "5"){
+                if(savedTargets.size() == 0){
+                    system("cls");
+                    cout << "No saved targets\n\n\n";
+                    system("pause");
+                    continue;
+                }
+                savedTargets.erase(savedTargets.begin() + chooseFromSaved(savedTargets));
+                toCSV(savedTargets, "saved.csv");
+            }else if(input == "6"){
                 polling = getPolling();
             }else if(input == "q"){
                 system("cls");
@@ -79,11 +101,11 @@ int main(){
             type = "hostname";
         }
 
-        //create bat
-        ofstream createBat;
-        createBat.open ("main.bat");
-        createBat << "@echo off\nping /n 1 /l 1 " + target << " > pings.txt\n";
-        createBat.close();
+        // //create bat
+        // ofstream createBat;
+        // createBat.open ("main.bat");
+        // createBat << "@echo off\nping /n 1 /l 1 " + target << " > pings.txt\n";
+        // createBat.close();
 
         //verify input can be pinged and set length
         string line;
