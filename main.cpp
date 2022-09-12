@@ -101,16 +101,9 @@ int main(){
             type = "hostname";
         }
 
-        // //create bat
-        // ofstream createBat;
-        // createBat.open ("main.bat");
-        // createBat << "@echo off\nping /n 1 /l 1 " + target << " > pings.txt\n";
-        // createBat.close();
-
         //verify input can be pinged and set length
         string line;
         int ipLength;
-        //system("main.bat");
         const string call = "ping /n 1 /l 1 " + target + " > pings.txt";
         const char *c = call.c_str();
         system(c);
@@ -155,7 +148,6 @@ int main(){
         while(!stop){
             thread removePoints(setAllPoints, ref(pingHistory), ref(display), prevAvg, " ");
             ping = systemPing(ipLength, target);
-            //ping = getPing(ipLength);
             removePoints.join();
 
             if(ping == 0){
