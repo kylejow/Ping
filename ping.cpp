@@ -1,19 +1,5 @@
 #include "ping.h"
 
-int getPing(int ipLength){
-    std::string line;
-    system("main.bat");
-    std::fstream file("pings.txt");
-    goToLine(file, 3);
-    getline(file, line);
-    file.close();
-    
-    if(line.substr(0, 5) == "Reply"){
-        return getInt(line, 26+ipLength);
-    }
-    return 0;
-}
-
 int systemPing(int ipLength, string& target){
     std::string line;
     const string call = "ping /n 1 /l 1 " + target + " > pings.txt";
@@ -99,7 +85,7 @@ int getPolling(void){
     return polling;
 }
 
-vector<string> saved(void){
+vector<string> loadSaved(void){
     vector<string> savedTargets;
     std::string line, target;
     std::fstream file("saved.csv");

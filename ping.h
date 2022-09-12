@@ -14,7 +14,6 @@ using std::string;
 using std::cout;
 using std::cin;
 
-int getPing(int ipLength);
 int systemPing(int ipLength, string& target);
 std::fstream& goToLine(std::fstream& file, int num);
 int getInt(string line, int start);
@@ -23,7 +22,7 @@ void setPoint(vector<vector<string>>& display, int ping, int avg, int location, 
 bool isIP(string line);
 int getIPLength(std::string line);
 int getPolling(void);
-vector<string> saved(void);
+vector<string> loadSaved(void);
 int chooseFromSaved(vector<string>& savedTargets);
 void printSavedTargets(vector<string>& savedTargets);
 void toCSV(vector<string>& savedTargets, string filename);

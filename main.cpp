@@ -34,7 +34,7 @@ void reachFailure(string target);
 
 int main(){
     int polling = 0;
-    vector<string> savedTargets = saved();
+    vector<string> savedTargets = loadSaved();
 
     while(1){
         string input;
