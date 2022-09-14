@@ -45,10 +45,11 @@ int main(){
             system("cls");
             cout << "1. Ping Google (8.8.8.8)\n"
                  << "2. Ping custom IP address or Hostname\n"
-                 << "3. Ping from saved targets\n"
-                 << "4. Add saved target\n"
-                 << "5. Delete saved target\n"
-                 << "6. Change polling rate (Current: " << polling << "ms)\n"
+                 << "3. View saved targets\n"
+                 << "4. Ping from saved targets\n"
+                 << "5. Add saved target\n"
+                 << "6. Delete saved target\n"
+                 << "7. Change polling rate (Current: " << polling << "ms)\n"
                  << "\n\nq to exit\n\n";
             cin >> input;
             if(input == "1"){
@@ -67,16 +68,27 @@ int main(){
                     system("pause");
                     continue;
                 }
+                system("cls");
+                printSavedTargets(savedTargets);
+                system("pause");
+                continue;
+            }else if(input == "4"){
+                if(savedTargets.size() == 0){
+                    system("cls");
+                    cout << "No saved targets\n\n\n";
+                    system("pause");
+                    continue;
+                }
                 target = savedTargets[chooseFromSaved(savedTargets)];
                 break;
-            }else if(input == "4"){
+            }else if(input == "5"){
                 system("cls");
                 string addToSaved;
                 cout << "Save custom IP address or Hostname: ";
                 cin >> addToSaved;
                 savedTargets.push_back(addToSaved);
                 toCSV(savedTargets, "saved.csv");
-            }else if(input == "5"){
+            }else if(input == "6"){
                 if(savedTargets.size() == 0){
                     system("cls");
                     cout << "No saved targets\n\n\n";
@@ -85,7 +97,7 @@ int main(){
                 }
                 savedTargets.erase(savedTargets.begin() + chooseFromSaved(savedTargets));
                 toCSV(savedTargets, "saved.csv");
-            }else if(input == "6"){
+            }else if(input == "7"){
                 polling = getPolling();
             }else if(input == "q"){
                 system("cls");
