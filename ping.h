@@ -26,5 +26,6 @@ vector<string> loadSaved(void);
 int chooseFromSaved(vector<string>& savedTargets);
 void printSavedTargets(vector<string>& savedTargets);
 void toCSV(vector<string>& savedTargets, string filename);
+bool noSavedTargets(vector<string>& savedTargets);
 
 #endif

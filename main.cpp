@@ -62,10 +62,7 @@ int main(){
                 cin >> target;
                 break;
             }else if(input == "3"){
-                if(savedTargets.size() == 0){
-                    system("cls");
-                    cout << "No saved targets\n\n\n";
-                    system("pause");
+                if(noSavedTargets(savedTargets)){
                     continue;
                 }
                 system("cls");
@@ -73,10 +70,7 @@ int main(){
                 system("pause");
                 continue;
             }else if(input == "4"){
-                if(savedTargets.size() == 0){
-                    system("cls");
-                    cout << "No saved targets\n\n\n";
-                    system("pause");
+                if(noSavedTargets(savedTargets)){
                     continue;
                 }
                 target = savedTargets[chooseFromSaved(savedTargets)];
@@ -89,10 +83,7 @@ int main(){
                 savedTargets.push_back(addToSaved);
                 toCSV(savedTargets, "saved.csv");
             }else if(input == "6"){
-                if(savedTargets.size() == 0){
-                    system("cls");
-                    cout << "No saved targets\n\n\n";
-                    system("pause");
+                if(noSavedTargets(savedTargets)){
                     continue;
                 }
                 savedTargets.erase(savedTargets.begin() + chooseFromSaved(savedTargets));

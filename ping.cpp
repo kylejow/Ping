@@ -132,3 +132,13 @@ void toCSV(vector<string>& savedTargets, string filename){
     file.close();
     return;
 }
+
+bool noSavedTargets(vector<string>& savedTargets){
+    if(savedTargets.size() == 0){
+        system("cls");
+        cout << "No saved targets\n\n\n";
+        system("pause");
+        return true;
+    }
+    return false;
+}
