@@ -35,6 +35,7 @@ void reachFailure(string target);
 int main(){
     int polling = 0;
     vector<string> savedTargets = loadSaved();
+    string timeout = "1000";
 
     while(1){
         string input;
@@ -50,6 +51,7 @@ int main(){
                  << "5. Add saved target\n"
                  << "6. Delete saved target\n"
                  << "7. Change polling rate (Current: " << polling << "ms)\n"
+                 << "8. Change ping timeout (Current: " << timeout << "ms)\n"
                  << "\n\nq to exit\n\n";
             cin >> input;
             if(input == "1"){
@@ -90,6 +92,8 @@ int main(){
                 toCSV(savedTargets, "saved.csv");
             }else if(input == "7"){
                 polling = getPolling();
+            }else if(input == "8"){
+                timeout = getTimeout(); // doesnt actually work
             }else if(input == "q"){
                 system("cls");
                 exit(0);
@@ -150,13 +154,14 @@ int main(){
         thread stopThread(stopProgram, ref(stop));
         while(!stop){
             thread removePoints(setAllPoints, ref(pingHistory), ref(display), prevAvg, " ");
-            ping = systemPing(ipLength, target);
+            ping = systemPing(ipLength, timeout, target);
             removePoints.join();
 
             if(ping == 0){
                 loss++;
                 continue;
             }
+
 
             if(ping > max){
                 max = ping;

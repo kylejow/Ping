@@ -1,8 +1,8 @@
 #include "ping.h"
 
-int systemPing(int ipLength, string& target){
+int systemPing(int ipLength, string timeout, string& target){
     std::string line;
-    const string call = "ping /n 1 /l 1 " + target + " > pings.txt";
+    const string call = "ping /n 1 /l 1 /w " + timeout + " " + target + " > pings.txt";
     const char *c = call.c_str();
     system(c);
     std::fstream file("pings.txt");
@@ -24,7 +24,7 @@ std::fstream& goToLine(std::fstream& file, int num){
     return file;
 }
 
-int getInt(string line, int start){
+int getInt(string& line, int start){
     int i = start;
     while(isdigit(line[i])){
         i++;
@@ -83,6 +83,22 @@ int getPolling(void){
     }
     system("cls");
     return polling;
+}
+
+string getTimeout(void){
+    system("cls");
+    int timeout;
+    cout << "Enter ping timeout in milliseconds: ";
+    cin >> timeout;
+    while(cin.fail()){
+        system("cls");
+        cout << "Enter ping timeout in milliseconds: ";
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+        cin >> timeout;
+    }
+    system("cls");
+    return std::to_string(timeout);
 }
 
 vector<string> loadSaved(void){
