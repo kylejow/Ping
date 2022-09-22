@@ -111,7 +111,7 @@ int main(){
         //verify input can be pinged and set length
         string line;
         int ipLength;
-        const string call = "ping /n 1 /l 1 " + target + " > pings.txt";
+        const string call = "ping /n 1 /l 1 /w " + timeout + " " + target + " > pings.txt";
         const char *c = call.c_str();
         system(c);
         fstream file("pings.txt");
@@ -145,7 +145,7 @@ int main(){
         cout << std::fixed << std::setprecision(5);
         int ping, min = INT_MAX, max = INT_MIN, avg = 0, prevAvg = 0;
         long double jitter = 0, loss = 0;
-        unsigned long long int sum = 0, count = 0;
+        unsigned long long int sum = 0, count = 0, spikes = 0;
 
         vector<vector<string>> display(21, vector<string>(50, " "));
         std::deque<int> pingHistory(50, 0);
@@ -162,6 +162,9 @@ int main(){
                 continue;
             }
 
+            if(abs(ping - avg) > 200){
+                spikes++;
+            }
 
             if(ping > max){
                 max = ping;
