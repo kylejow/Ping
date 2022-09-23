@@ -101,6 +101,22 @@ string getTimeout(void){
     return std::to_string(timeout);
 }
 
+int getSpikeDelta(void){
+    system("cls");
+    int delta;
+    cout << "Enter ping spike delta: ";
+    cin >> delta;
+    while(cin.fail()){
+        system("cls");
+        cout << "Enter ping spike delta: ";
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+        cin >> delta;
+    }
+    system("cls");
+    return delta;
+}
+
 vector<string> loadSaved(void){
     vector<string> savedTargets;
     std::string line, target;

@@ -23,6 +23,7 @@ bool isIP(string line);
 int getIPLength(std::string line);
 int getPolling(void);
 string getTimeout(void);
+int getSpikeDelta(void);
 vector<string> loadSaved(void);
 int chooseFromSaved(vector<string>& savedTargets);
 void printSavedTargets(vector<string>& savedTargets);

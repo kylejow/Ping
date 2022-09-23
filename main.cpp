@@ -33,7 +33,7 @@ void stopProgram(std::atomic_bool& stop);
 void reachFailure(string target);
 
 int main(){
-    int polling = 0;
+    int polling = 0, spikeDelta = 50;
     vector<string> savedTargets = loadSaved();
     string timeout = "1000";
 
@@ -52,6 +52,7 @@ int main(){
                  << "6. Delete saved target\n"
                  << "7. Change polling rate (Current: " << polling << "ms)\n"
                  << "8. Change ping timeout (Current: " << timeout << "ms)\n"
+                 << "9. Change ping spike delta (Current: " << spikeDelta << "ms)\n"
                  << "\n\nq to exit\n\n";
             cin >> input;
             if(input == "1"){
@@ -94,6 +95,8 @@ int main(){
                 polling = getPolling();
             }else if(input == "8"){
                 timeout = getTimeout(); // doesnt actually work
+            }else if(input == "9"){
+                spikeDelta = getSpikeDelta();
             }else if(input == "q"){
                 system("cls");
                 exit(0);
@@ -162,7 +165,7 @@ int main(){
                 continue;
             }
 
-            if(abs(ping - avg) > 200){
+            if((ping - avg) > spikeDelta){
                 spikes++;
             }
 
