@@ -35,7 +35,7 @@ void reachFailure(string target);
 int main(){
     int polling = 0, spikeDelta = 50;
     vector<string> savedTargets = loadSaved();
-    string timeout = "1000";
+    string timeout = "1000"; // save as string to avoid to_string on every call
 
     while(1){
         string input;
@@ -92,11 +92,11 @@ int main(){
                 savedTargets.erase(savedTargets.begin() + chooseFromSaved(savedTargets));
                 toCSV(savedTargets, "saved.csv");
             }else if(input == "7"){
-                polling = getPolling();
+                polling = getIntInput("Enter polling rate in milliseconds: ");
             }else if(input == "8"){
-                timeout = getTimeout(); // doesnt actually work
+                timeout = std::to_string(getIntInput("Enter ping timeout in milliseconds: ")); // inexact
             }else if(input == "9"){
-                spikeDelta = getSpikeDelta();
+                spikeDelta = getIntInput("Enter ping spike delta: ");
             }else if(input == "q"){
                 system("cls");
                 exit(0);

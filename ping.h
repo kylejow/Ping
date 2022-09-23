@@ -21,9 +21,7 @@ void setAllPoints(std::deque<int>& pingHistory, vector<vector<std::string>>& dis
 void setPoint(vector<vector<string>>& display, int ping, int avg, int location, string replace);
 bool isIP(string line);
 int getIPLength(std::string line);
-int getPolling(void);
-string getTimeout(void);
-int getSpikeDelta(void);
+int getIntInput(string prompt);
 vector<string> loadSaved(void);
 int chooseFromSaved(vector<string>& savedTargets);
 void printSavedTargets(vector<string>& savedTargets);

@@ -69,52 +69,20 @@ int getIPLength(std::string line){
     return i-start;
 }
 
-int getPolling(void){
+int getIntInput(string prompt){
     system("cls");
-    int polling;
-    cout << "Enter polling rate in milliseconds: ";
-    cin >> polling;
+    int i;
+    cout << prompt;
+    cin >> i;
     while(cin.fail()){
         system("cls");
-        cout << "Enter polling rate in milliseconds: ";
+        cout << prompt;
         cin.clear();
         cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-        cin >> polling;
+        cin >> i;
     }
     system("cls");
-    return polling;
-}
-
-string getTimeout(void){
-    system("cls");
-    int timeout;
-    cout << "Enter ping timeout in milliseconds: ";
-    cin >> timeout;
-    while(cin.fail()){
-        system("cls");
-        cout << "Enter ping timeout in milliseconds: ";
-        cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-        cin >> timeout;
-    }
-    system("cls");
-    return std::to_string(timeout);
-}
-
-int getSpikeDelta(void){
-    system("cls");
-    int delta;
-    cout << "Enter ping spike delta: ";
-    cin >> delta;
-    while(cin.fail()){
-        system("cls");
-        cout << "Enter ping spike delta: ";
-        cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-        cin >> delta;
-    }
-    system("cls");
-    return delta;
+    return i;
 }
 
 vector<string> loadSaved(void){
