@@ -193,13 +193,14 @@ int main(){
 
             cout << "Pinging " << target << "\n\n";
             printDisplay(display);
-            
+
             cout << "\nPing: "   << ping <<"     "
                  << "\nMin: "    << min  <<"     "
                  << "\nMax: "    << max  <<"     "
                  << "\nAvg: "    << avg  <<"     "
                  << "\nJitter: " << jitter/49  <<"     "
                  << "\nPacket Loss: " << loss/count*100  <<"%     "
+                 << "\nPing Spikes: " << spikes  <<"     "
                  << "\n\n\nPress Enter to exit.";
 
             Sleep(polling);
@@ -208,6 +209,17 @@ int main(){
 
         stopThread.join();
         system("clear");
+
+        cout << "Summary:\n"
+             << "\nTarget: " << target <<"     "
+             << "\nMin: "    << min  <<"     "
+             << "\nMax: "    << max  <<"     "
+             << "\nAvg: "    << avg  <<"     "
+             << "\nJitter: " << jitter/49  <<"     "
+             << "\nPacket Loss: " << loss/count*100  <<"%     "
+             << "\nPing Spikes: " << spikes  << "\n\n\n";
+
+        system("pause");
         system("rm pings.txt");
         setCursor(true);
     }
