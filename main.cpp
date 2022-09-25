@@ -84,19 +84,24 @@ int main(){
                 cout << "Save custom IP address or Hostname: ";
                 cin >> addToSaved;
                 savedTargets.push_back(addToSaved);
-                toCSV(savedTargets, "saved.csv");
+                string filename = "saved.csv";
+                toCSV(savedTargets, filename);
             }else if(input == "6"){
                 if(noSavedTargets(savedTargets)){
                     continue;
                 }
                 savedTargets.erase(savedTargets.begin() + chooseFromSaved(savedTargets));
-                toCSV(savedTargets, "saved.csv");
+                string filename = "saved.csv";
+                toCSV(savedTargets, filename);
             }else if(input == "7"){
-                polling = getIntInput("Enter polling rate in milliseconds: ");
+                string prompt = "Enter polling rate in milliseconds: ";
+                polling = getIntInput(prompt);
             }else if(input == "8"){
-                timeout = std::to_string(getIntInput("Enter ping timeout in milliseconds: ")); // inexact
+                string prompt = "Enter ping timeout in milliseconds: ";
+                timeout = std::to_string(getIntInput(prompt)); // inexact
             }else if(input == "9"){
-                spikeDelta = getIntInput("Enter ping spike delta: ");
+                string prompt = "Enter ping spike delta: ";
+                spikeDelta = getIntInput(prompt);
             }else if(input == "q"){
                 system("cls");
                 exit(0);

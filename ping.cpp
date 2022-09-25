@@ -1,6 +1,6 @@
 #include "ping.h"
 
-int systemPing(int ipLength, string timeout, string& target){
+int systemPing(int ipLength, string& timeout, string& target){
     std::string line;
     const string call = "ping /n 1 /l 1 /w " + timeout + " " + target + " > pings.txt";
     const char *c = call.c_str();
@@ -51,7 +51,7 @@ void setPoint(vector<vector<string>>& display, int ping, int avg, int location, 
     }
 }
 
-bool isIP(string line){
+bool isIP(string& line){
     for(long long unsigned int i = 0; i < line.size(); i++){
         if(!isdigit(line[i]) && line[i] != '.'){
             return false;
@@ -60,7 +60,7 @@ bool isIP(string line){
     return true;
 }
 
-int getIPLength(std::string line){
+int getIPLength(string& line){
     int start = 11;
     int i = start;
     while(isdigit(line[i]) || line[i] == '.'){
@@ -69,7 +69,7 @@ int getIPLength(std::string line){
     return i-start;
 }
 
-int getIntInput(string prompt){
+int getIntInput(string& prompt){
     system("cls");
     int i;
     cout << prompt;
@@ -123,7 +123,7 @@ void printSavedTargets(vector<string>& savedTargets){
     cout << "\n";
 }
 
-void toCSV(vector<string>& savedTargets, string filename){
+void toCSV(vector<string>& savedTargets, string& filename){
     std::string line;
     std::ofstream file(filename, std::ofstream::trunc);
     for(long long unsigned int i = 0; i < savedTargets.size(); i++){
