@@ -1,9 +1,7 @@
 #include "ping.h"
 
-int systemPing(int ipLength, string& timeout, string& target){
+int systemPing(const char* c, int ipLength){
     std::string line;
-    const string call = "ping /n 1 /l 1 /w " + timeout + " " + target + " > pings.txt";
-    const char *c = call.c_str();
     system(c);
     std::fstream file("pings.txt");
     goToLine(file, 3);

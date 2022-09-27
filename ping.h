@@ -14,7 +14,7 @@ using std::string;
 using std::cout;
 using std::cin;
 
-int systemPing(int ipLength, string& timeout, string& target);
+int systemPing(const char* c, int ipLength);
 std::fstream& goToLine(std::fstream& file, int num);
 int getInt(string& line, int start);
 void setAllPoints(std::deque<int>& pingHistory, vector<vector<std::string>>& display, int avg, string replace);

@@ -119,9 +119,9 @@ int main(){
         //verify input can be pinged and set length
         string line;
         int ipLength;
-        const string call = "ping /n 1 /l 1 /w " + timeout + " " + target + " > pings.txt";
-        const char *c = call.c_str();
-        system(c);
+        const string str = "ping /n 1 /l 1 /w " + timeout + " " + target + " > pings.txt";
+        const char *call = str.c_str();
+        system(call);
         fstream file("pings.txt");
         getline(file, line);
         if(!line.empty()){
@@ -162,7 +162,7 @@ int main(){
         thread stopThread(stopProgram, ref(stop));
         while(!stop){
             thread removePoints(setAllPoints, ref(pingHistory), ref(display), prevAvg, " ");
-            ping = systemPing(ipLength, timeout, target);
+            ping = systemPing(call, ipLength);
             removePoints.join();
 
             if(ping == 0){
