@@ -11,7 +11,7 @@ int systemPing(const char* c, int ipLength){
     if(line.substr(0, 5) == "Reply"){
         return getInt(line, 26+ipLength);
     }
-    return 0;
+    return -1;
 }
 
 std::fstream& goToLine(std::fstream& file, int num){
@@ -32,7 +32,7 @@ int getInt(string& line, int start){
 
 void setAllPoints(std::deque<int>& pingHistory, vector<vector<string>>& display, int avg, string replace){
     for(int i = 1; i < 50; i++){
-        if(pingHistory[i] == 0){
+        if(pingHistory[i] == -1){
             continue;
         }
         setPoint(display, pingHistory[i], avg, i, replace);

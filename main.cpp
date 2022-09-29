@@ -120,7 +120,7 @@ int main(){
         string line;
         int ipLength;
         const string str = "ping /n 1 /l 1 /w " + timeout + " " + target + " > pings.txt";
-        const char *call = str.c_str();
+        const char* call = str.c_str();
         system(call);
         fstream file("pings.txt");
         getline(file, line);
@@ -156,7 +156,7 @@ int main(){
         unsigned long long int sum = 0, count = 0, spikes = 0;
 
         vector<vector<string>> display(21, vector<string>(50, " "));
-        std::deque<int> pingHistory(50, 0);
+        std::deque<int> pingHistory(50, -1);
 
         std::atomic_bool stop = false;
         thread stopThread(stopProgram, ref(stop));
@@ -165,7 +165,7 @@ int main(){
             ping = systemPing(call, ipLength);
             removePoints.join();
 
-            if(ping == 0){
+            if(ping == -1){
                 loss++;
                 continue;
             }
