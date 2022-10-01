@@ -11,7 +11,7 @@
 
 using std::vector;
 
-void printDisplay(vector<vector<std::string>>& display);
+void printDisplay(vector<vector<std::string>>& display, int displayLength);
 void printVect(vector<int>& vect);
 void clearScreen();
 void updateAxis(vector<vector<std::string>>& display, int avg);

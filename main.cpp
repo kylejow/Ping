@@ -156,6 +156,7 @@ int main(){
         unsigned long long int sum = 0, count = 0, spikes = 0;
 
         vector<vector<string>> display(21, vector<string>(50, " "));
+        int displayLength = display[0].size();
         std::deque<int> pingHistory(50, -1);
 
         std::atomic_bool stop = false;
@@ -197,7 +198,7 @@ int main(){
             setAllPoints(pingHistory, display, prevAvg, "*");  // replace points
 
             cout << "Pinging " << target << "\n\n";
-            printDisplay(display);
+            printDisplay(display, displayLength);
 
             cout << "\nPing: "   << ping <<"     "
                  << "\nMin: "    << min  <<"     "

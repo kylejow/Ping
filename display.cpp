@@ -4,10 +4,9 @@
 
 #include "display.h"
 
-void printDisplay(vector<vector<std::string>>& display){
-    int length = display[0].size();
+void printDisplay(vector<vector<std::string>>& display, int displayLength){
     for(auto iter = display.begin(); iter != display.end(); iter++){
-        for(int i = 0; i < length; i++){
+        for(int i = 0; i < displayLength; i++){
             std::cout << (*iter)[i] << " ";
         }
         std::cout << "\n";
